@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/data">
+        <file alias="words-1">../data/suomen-sanomalehtikielen-taajuussanasto-utf8.txt</file>
+        <file alias="info-words-1">../data/info-suomen-sanomalehtikielen-taajuussanasto-utf8.txt</file>
+        <file>LICENSE</file>
+    </qresource>
+</RCC>
