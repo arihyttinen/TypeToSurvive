@@ -15,32 +15,10 @@
 #    You should have received a copy of the GNU General Public License
 #    along with TypeToSurvive.  If not, see <https://www.gnu.org/licenses/>.
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Box2DLib/release/ -lBox2DLib
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Box2DLib/debug/ -lBox2DLib
+else:unix: LIBS += -L$$OUT_PWD/../Box2DLib/ -Box2DLib
 
-QT += core gui widgets
+INCLUDEPATH += $$PWD/../Box2dLib/Box2D
 
-TARGET = TypeToSurvive
-TEMPLATE = app
-
-DEFINES += QT_DEPRECATED_WARNINGS
-
-SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-        typingview.cpp \
-        utils.cpp \
-        worditem.cpp
-
-HEADERS += \
-        mainwindow.h \
-        typingview.h \
-        utils.h \
-        worditem.h
-
-FORMS += \
-        mainwindow.ui
-
-RESOURCES += \
-    resources.qrc
-
-include(../Options.pri)
-include(../Box2DLib/Box2DLib.pri)
+DEPENDPATH += $$PWD/../Box2dLib/Box2D

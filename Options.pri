@@ -15,32 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with TypeToSurvive.  If not, see <https://www.gnu.org/licenses/>.
 
+CONFIG += c++14
 
-QT += core gui widgets
+QMAKE_CXXFLAGS += -Wall -Wextra
 
-TARGET = TypeToSurvive
-TEMPLATE = app
-
-DEFINES += QT_DEPRECATED_WARNINGS
-
-SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-        typingview.cpp \
-        utils.cpp \
-        worditem.cpp
-
-HEADERS += \
-        mainwindow.h \
-        typingview.h \
-        utils.h \
-        worditem.h
-
-FORMS += \
-        mainwindow.ui
-
-RESOURCES += \
-    resources.qrc
-
-include(../Options.pri)
-include(../Box2DLib/Box2DLib.pri)

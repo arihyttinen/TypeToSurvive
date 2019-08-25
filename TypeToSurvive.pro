@@ -17,6 +17,6 @@
 
 TEMPLATE = subdirs
 
-SUBDIRS = Main
+SUBDIRS = Main Box2DLib
 
-
+Main.depends += Box2DLib

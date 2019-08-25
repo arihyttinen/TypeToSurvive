@@ -15,32 +15,18 @@
 #    You should have received a copy of the GNU General Public License
 #    along with TypeToSurvive.  If not, see <https://www.gnu.org/licenses/>.
 
+TEMPLATE = lib
 
-QT += core gui widgets
+TARGET = Box2DLib
 
-TARGET = TypeToSurvive
-TEMPLATE = app
-
-DEFINES += QT_DEPRECATED_WARNINGS
-
-SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-        typingview.cpp \
-        utils.cpp \
-        worditem.cpp
-
-HEADERS += \
-        mainwindow.h \
-        typingview.h \
-        utils.h \
-        worditem.h
-
-FORMS += \
-        mainwindow.ui
-
-RESOURCES += \
-    resources.qrc
+QT -= core gui
 
 include(../Options.pri)
-include(../Box2DLib/Box2DLib.pri)
+
+INCLUDEPATH += Box2D
+
+SOURCES += $$files("Box2D/Box2D/*.cpp", true)
+
+HEADERS += $$files("Box2D/Box2D/*.h", true)
+
+OTHER_FILES += Box2DLib.pri
