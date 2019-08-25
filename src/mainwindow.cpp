@@ -197,7 +197,7 @@ void MainWindow::tick()
     if(mDroppings.size() <= 0 || mWordTimer.elapsed() > mMillisToNextWord) {
         QString word = mWordList[Utils::random_in_range(0, mWordList.size()-1)];
         mWordTimer.restart();
-        mMillisToNextWord = mCps * word.length() * 1000;
+        mMillisToNextWord = word.length() / mCps * 1000.0;
         WordItem *item = newWordItem(word);
         ui->gameArea->scene()->addItem(item);
         mDroppings.insertMulti(word, item);
@@ -226,7 +226,7 @@ bool MainWindow::checkWord(const QString &word)
 WordItem *MainWindow::newWordItem(const QString &word)
 {
 
-    WordItem *item = new WordItem(word);
+    WordItem *item = new WordItem(word, QPointF{0.0, 0.5});
     item->setFont(QFont("Helvetica", GAME_AREA_WIDTH * 0.04));
 
     QFontMetrics metrics(item->font());

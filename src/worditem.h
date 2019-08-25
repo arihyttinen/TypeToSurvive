@@ -25,10 +25,13 @@
 class WordItem : public QGraphicsSimpleTextItem
 {
 public:
-    explicit WordItem(const QString &word, QGraphicsItem *parent = nullptr);
+    explicit WordItem(const QString &word, const QPointF &velocity, QGraphicsItem *parent = nullptr);
 
 protected:
     void advance(int phase) override;
+
+private:
+    QPointF mVelocity;
 };
 
 

@@ -20,15 +20,16 @@
 #include "worditem.h"
 #include "utils.h"
 
-WordItem::WordItem(const QString &word, QGraphicsItem *parent)
+WordItem::WordItem(const QString &word, const QPointF &velocity, QGraphicsItem *parent)
     : QGraphicsSimpleTextItem(word, parent)
+    , mVelocity(velocity)
 {
 }
 
 void WordItem::advance(int phase)
 {
     if (phase == 1) {
-        moveBy(0, 1);
+        moveBy(mVelocity.x(), mVelocity.y());
     }
 }
 
