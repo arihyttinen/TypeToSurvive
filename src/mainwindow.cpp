@@ -33,16 +33,21 @@
 
 #include <QDebug>
 
-///
-/// Words1 example for valid line:
-///
-///    1    2716396 4,614851 olla (verbi)
-///
-/// For each line,
-/// verify that it has 5 items,
-/// verify that first word is positive number,
-/// then append 4th word to dest.
-///
+
+/*
+ appendFormat_514 parses word data file in particular format
+
+ Example for valid line:
+    1    2716396 4,614851 olla (verbi)
+
+ For each line,
+ verify that it has 5 items,
+ verify that first word is positive number,
+ then append 4th word to dest.
+
+ Also modify words based on if they are (erisnimi), and
+ split words which have underscores into multiple single words.
+*/
 template <typename T>
 static void appendFormat_514(T &dest, const QString &fileName) {
     QFile file(fileName);
@@ -51,12 +56,19 @@ static void appendFormat_514(T &dest, const QString &fileName) {
     }
     QTextStream stream(&file);
     stream.setCodec("UTF-8");
-    const QChar sep{' '};
     do {
-        QVector<QStringRef> line = stream.readLine().splitRef(sep, QString::SkipEmptyParts);
+        const QString line = stream.readLine();
+        QVector<QStringRef> dataColumns = line.splitRef(Utils::SEP_SPACE, QString::SkipEmptyParts);
         bool ok = false;
-        if (line.length() == 5 && line[0].toInt(&ok) >= 1 && ok) {
-            dest.append(line[3].toString());
+        if (dataColumns.count() == 5 && dataColumns[0].toInt(&ok) >= 1 && ok) {
+            for(QStringRef wordRef: dataColumns[3].split(Utils::SEP_UNDERSCORE, QString::SkipEmptyParts)) {
+                QString word = wordRef.toString();
+
+                if (dataColumns[4] == QStringLiteral("(erisnimi)")) {
+                    Utils::capitalizeMultiWord(Utils::SEP_DASH, word);
+                }
+                dest.append(word);
+            }
         }
     } while (!stream.atEnd());
 }

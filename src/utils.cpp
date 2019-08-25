@@ -19,6 +19,9 @@
 
 #include <random>
 
+#include <QString>
+#include <QStringList>
+
 #include "utils.h"
 
 static std::random_device random_device;
@@ -28,4 +31,20 @@ int Utils::random_in_range(int begin, int end)
 {
     auto dist = std::uniform_int_distribution<int>{ begin, end };
     return dist(random_device);
+}
+
+void Utils::capitalizeWord(QString &word)
+{
+    if (word.length() > 0) {
+        word[0] = word[0].toUpper();
+    }
+}
+
+void Utils::capitalizeMultiWord(QChar sep, QString &word)
+{
+    auto parts = word.split(sep, QString::KeepEmptyParts);
+    for (auto &part : parts) {
+        capitalizeWord(part);
+    }
+    word = parts.join(sep);
 }

@@ -20,8 +20,18 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <QChar>
 
 namespace Utils {
 int random_in_range(int begin, int end);
+
+void capitalizeWord(QString &word);
+void capitalizeMultiWord(QChar sep, QString &word);
+
+static const QChar SEP_SPACE = ' ';
+static const QChar SEP_UNDERSCORE = '_';
+static const QChar SEP_DASH = '-';
 }
+
+
 #endif // UTILS_H
