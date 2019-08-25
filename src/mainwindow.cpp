@@ -83,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->cpsDisplay->setText(QString::number(mCps, 'f', 1));
 
-    appendFormat_514(mWords, QStringLiteral(":/data/words-1"));
+    appendFormat_514(mWordList, QStringLiteral(":/data/words-1"));
 
     // set up the game area
     {
@@ -137,8 +137,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             if (ch.isSpace()) {
                 bool correct = checkWord(ui->typingView->currentWord());
                 ui->typingView->endWord(correct);
-            } else {
+            } else if (ch.isPrint()) {
                 ui->typingView->appendChar(ch);
+            } else if (ch == QChar::fromLatin1(8) || ch == QChar::fromLatin1(127)) {
+                // 8 is BS produced by backspace key, 127 is DEL produced by delete key
+                adjustMistakes(ui->typingView->deleteWord());
+            } else {
+                qDebug() << "Ignoring character code" << ch.unicode();
             }
         }
     }
@@ -190,7 +195,7 @@ void MainWindow::tick()
     }
 
     if(mDroppings.size() <= 0 || mWordTimer.elapsed() > mMillisToNextWord) {
-        QString word = mWords[Utils::random_in_range(0, mWords.size()-1)];
+        QString word = mWordList[Utils::random_in_range(0, mWordList.size()-1)];
         mWordTimer.restart();
         mMillisToNextWord = mCps * word.length() * 1000;
         WordItem *item = newWordItem(word);

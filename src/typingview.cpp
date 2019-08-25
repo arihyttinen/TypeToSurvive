@@ -33,27 +33,36 @@ TypingView::TypingView(QWidget *parent) : QLabel(parent)
 
 void TypingView::appendChar(QChar ch)
 {
-    Q_ASSERT(!words.isEmpty());
-    words.last().text.append(ch);
+    Q_ASSERT(!mWords.isEmpty());
+    mWords.last().text.append(ch);
     update();
 }
 
 void TypingView::endWord(bool correct)
 {
-    Q_ASSERT(!words.isEmpty());
-    if (!words.last().text.isEmpty()) {
-        words.last().state = correct ? Word::Good : Word::Bad;
-        words.append(Word{});
+    Q_ASSERT(!mWords.isEmpty());
+    if (!mWords.last().text.isEmpty()) {
+        mWords.last().state = correct ? Word::Good : Word::Bad;
+        mWords.append(Word{});
         update();
     }
 }
 
+int TypingView::deleteWord()
+{
+    Q_ASSERT(!mWords.isEmpty());
+    int length = mWords.last().text.length();
+    mWords.last() = Word{};
+    update();
+    return length;
+}
+
 void TypingView::trimWords(int firstIndex) {
-    if (firstIndex >= words.size()) {
-        words.clear();
+    if (firstIndex >= mWords.size()) {
+        mWords.clear();
     } else {
         while(--firstIndex >= 0) {
-            words.removeFirst();
+            mWords.removeFirst();
         }
 
     }
@@ -66,15 +75,15 @@ void TypingView::paintEvent(QPaintEvent *)
     painter.setFont(font());
     QFontMetrics metrics(font());
 
-    int index = words.size();
+    int index = mWords.size();
     QRect textRect = rect();
     int hsvSaturation = 255;
     while (index > 0) {
         --index;
 
-        QString word = QStringLiteral("  ") + words[index].text;
+        QString word = QStringLiteral("  ") + mWords[index].text;
         QRect bounds = metrics.boundingRect(textRect, Qt::AlignRight, word);
-        QColor color = words[index].stateToQColor(hsvSaturation);
+        QColor color = mWords[index].stateToQColor(hsvSaturation);
         painter.setPen(color);
         painter.drawText(bounds, word);
 

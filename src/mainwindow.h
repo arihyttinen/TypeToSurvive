@@ -74,7 +74,7 @@ private:
 
     QHash<QString, WordItem*> mDroppings;
 
-    QVector<QString> mWords;
+    QVector<QString> mWordList;
 
     qreal mGroundLevel = 0.9 * GAME_AREA_HEIGHT;
 

@@ -45,21 +45,23 @@ public:
     explicit TypingView(QWidget *parent = nullptr);
 
     QString currentWord() {
-        return words.isEmpty() ? QString{} : words.last().text;
+        return mWords.isEmpty() ? QString{} : mWords.last().text;
     }
+
+    int deleteWord();
+    void appendChar(QChar ch);
+    void endWord(bool correct);
+    void trimWords(int firstIndex);
 
 signals:
 
 public slots:
-    void appendChar(QChar ch);
-    void endWord(bool correct);
-    void trimWords(int firstIndex);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
-    QList<Word> words = { Word{} };
+    QList<Word> mWords = { Word{} };
 
 };
 
